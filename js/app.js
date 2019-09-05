@@ -64,7 +64,7 @@ const setActiveSection = () => {
 const scrollSection = (e) => {
   e.preventDefault()
   const ele = document.getElementById(e.target.dataset.scroll)
-  ele.scrollIntoView('your-active-class')
+  if (ele) ele.scrollIntoView('your-active-class')
   links.forEach(l => {
     l.classList.remove('your-active-class')
   })
