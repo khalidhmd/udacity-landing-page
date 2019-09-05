@@ -18,7 +18,8 @@
  *
  */
 const navBarList = document.getElementById('navbar__list');
-const sectionList = document.querySelectorAll('[data-nav]')
+const sectionList = document.querySelectorAll('[data-nav]');
+let links
 
 /**
  * End Global Variables
@@ -42,6 +43,7 @@ const populateLinks = () => {
     fragment.appendChild(li);
   })
   navBarList.appendChild(fragment)
+  links = document.querySelectorAll('[data-scroll]')
 }
 
 // Add class 'active' to section when near top of viewport
@@ -50,25 +52,23 @@ const setActiveSection = () => {
     const boundary = sectionList[i].getBoundingClientRect();
     if ((boundary.top < (window.innerHeight / 3)) && (boundary.top > 0 - (window.innerHeight / 3))) {
       sectionList[i].classList.toggle('your-active-class', true)
+      links.item(i).classList.toggle('your-active-class', true)
       continue
     }
     sectionList[i].classList.toggle('your-active-class', false)
+    links.item(i).classList.toggle('your-active-class', false)
   }
 }
 
 // Scroll to anchor ID using scrollTO event
 const scrollSection = (e) => {
   e.preventDefault()
-  for (let i = 0; i < sectionList.length; i++) {
-    if (sectionList[i].getAttribute('id') == e.target.dataset.scroll) {
-      const ele = document.getElementById(sectionList[i].getAttribute('id'))
-      console.log(sectionList[i].getBoundingClientRect().top)
-      console.log(sectionList[i].getBoundingClientRect().left)
-      window.scroll(sectionList[i].getBoundingClientRect().left, sectionList[i].getBoundingClientRect().top)
-      // console.log(sectionList[i])
-      // console.log(e.target.dataset.scroll)
-    }
-  }
+  const ele = document.getElementById(e.target.dataset.scroll)
+  ele.scrollIntoView('your-active-class')
+  links.forEach(l => {
+    l.classList.remove('your-active-class')
+  })
+  e.target.classList.add('your-active-class')
 }
 
 /**
